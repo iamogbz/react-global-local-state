@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { OnValue, useSyncedValue } from './hooks/useValue';
+import * as React from "react";
+import { OnValue, useSyncedValue } from "./hooks/useValue";
 
 function LabelInput({
   labelText,
@@ -10,8 +10,8 @@ function LabelInput({
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >,
-  'onChange'
-> & { labelText: string; onValueChange: OnValue<string> }) {
+  "onChange"
+> & { labelText: string; onValueChange?: OnValue<string> }) {
   const onChange = React.useCallback(
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
       return onValueChange?.(e.currentTarget.value);
@@ -30,16 +30,16 @@ function LabelInput({
 function SourceTargetInput({
   id,
   labelText,
-  ...useSyncedValueParams
+  source,
 }: {
   id: string;
   labelText: string;
   source: {
     value?: string;
-    setValue?:  OnValue<string>;
-  }
+    setValue?: OnValue<string>;
+  };
 }) {
-  const synced = useSyncedValue(useSyncedValueParams);
+  const synced = useSyncedValue({ source });
 
   return (
     <LabelInput
@@ -51,22 +51,30 @@ function SourceTargetInput({
   );
 }
 
-export default function App() {
-  const [value, setValue] = React.useState('initial parent value');
+export default function App(): JSX.Element {
+  const [value, setValue] = React.useState<string | undefined>(
+    "initial parent value",
+  );
 
   return (
-    <div className='App'>
+    <div className="App">
       <LabelInput
-        id='parentValue'
-        labelText=' parent: '
+        id="parentValue"
+        labelText=" parent: "
         onValueChange={setValue}
         value={value}
       />
       <hr />
       <SourceTargetInput
-        id='childValue'
-        labelText=' child: '
+        id="childValue"
+        labelText=" child that updates parent: "
         source={{ value, setValue }}
+      />
+      <hr />
+      <SourceTargetInput
+        id="childValue"
+        labelText=" child that only receives: "
+        source={{ value }}
       />
     </div>
   );
