@@ -1,50 +1,37 @@
-import * as React from "react";
-import { OnValue, useSyncedValue } from "./hooks/useValue";
+import * as React from 'react';
+import { OnValue, useSyncedValue } from './hooks/useValue';
+import { Input, InputProps } from './Input';
 
-function LabelInput({
-  labelText,
-  onValueChange,
+type LabelledInputProps = InputProps & {
+  label: { text: string; style?: React.CSSProperties };
+};
+function LabelledInput({
+  label: { text: labelText, style: labelStyle },
   ...inputProps
-}: Omit<
-  React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >,
-  "onChange"
-> & { labelText: string; onValueChange?: OnValue<string> }) {
-  const onChange = React.useCallback(
-    function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-      return onValueChange?.(e.currentTarget.value);
-    },
-    [onValueChange],
-  );
-
+}: LabelledInputProps) {
   return (
     <>
-      <label htmlFor={inputProps.name ?? inputProps.id}>{labelText}</label>
-      <input {...inputProps} onChange={onChange} />
+      <label htmlFor={inputProps.name ?? inputProps.id} style={labelStyle}>
+        {labelText}
+      </label>
+      <Input {...inputProps} />
     </>
   );
 }
 
-function SourceTargetInput({
-  id,
-  labelText,
-  source,
-}: {
-  id: string;
-  labelText: string;
+type SourceTargetInputProps = Pick<LabelledInputProps, 'id' | 'label'> & {
   source: {
     value?: string;
     setValue?: OnValue<string>;
   };
-}) {
+};
+function SourceTargetInput({ id, label, source }: SourceTargetInputProps) {
   const synced = useSyncedValue({ source });
 
   return (
-    <LabelInput
+    <LabelledInput
       id={id}
-      labelText={labelText}
+      label={label}
       value={synced.value}
       onValueChange={synced.setValue}
     />
@@ -52,28 +39,34 @@ function SourceTargetInput({
 }
 
 export default function App(): JSX.Element {
+  const labelStyle: React.CSSProperties = {
+    width: '180px',
+    display: 'inline-block',
+    textAlign: 'right',
+    marginRight: '20px',
+  };
   const [value, setValue] = React.useState<string | undefined>(
-    "initial parent value",
+    'initial parent value'
   );
 
   return (
     <div className="App">
-      <LabelInput
+      <LabelledInput
         id="parentValue"
-        labelText=" parent: "
+        label={{ text: ' parent: ', style: labelStyle }}
         onValueChange={setValue}
         value={value}
       />
       <hr />
       <SourceTargetInput
         id="childValue"
-        labelText=" child that updates parent: "
+        label={{ text: ' child that updates parent: ', style: labelStyle }}
         source={{ value, setValue }}
       />
       <hr />
       <SourceTargetInput
         id="childValue"
-        labelText=" child that only receives: "
+        label={{ text: ' child that only receives: ', style: labelStyle }}
         source={{ value }}
       />
     </div>
