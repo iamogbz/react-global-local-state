@@ -7,6 +7,9 @@ module.exports = {
     "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ['./tsconfig.json'], // Specify it only for TypeScript files
+  },
   rules: {
     "prettier/prettier": 2,
   },

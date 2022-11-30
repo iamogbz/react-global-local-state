@@ -1,5 +1,7 @@
 artifacts/
 build/
 built/
+coverage/
 dist/
 docs/
+.eslintrc.js

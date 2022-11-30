@@ -63,7 +63,7 @@ interface UseValueResult<T, U> extends UpdateableValue<T> {
 
 /**
  * Keep track of set value changes and triggers change handler on difference.
- * Uses {@link lodash.isequal} to compare values when checking for a change.
+ * Uses {@link isEqual} to compare values when checking for a change.
  */
 export function useValue<T, U>({
   initial,
@@ -93,10 +93,19 @@ export function useValue<T, U>({
 /**
  * Params for `useTrackedValue` which include the source value, stamper and a predicate.
  */
+
+type ShouldUpdateArg<T, U> = Pick<
+  Partial<UseValueResult<T, U>>,
+  "stamp" | "value"
+>;
+export type ShouldUpdateCallback<T, U> = (
+  source?: ShouldUpdateArg<T, U>,
+  target?: ShouldUpdateArg<T, U>,
+) => boolean;
 interface UseTrackedValueOptions<T, U> {
-  source: Partial<UseValueResult<T, U>>;
+  source?: Partial<UseValueResult<T, U>>;
   stamper?: U;
-  shouldUpdate: (sourceStamp?: Stamp<U>, targetStamp?: Stamp<U>) => boolean;
+  shouldUpdate: ShouldUpdateCallback<T, U>;
 }
 
 /**
@@ -115,20 +124,26 @@ export function useTrackedValue<T, U>({
     stamper,
   });
 
-  const trackedSetValue = tracked.setValue;
-  const trackedStamp = tracked.stamp;
-
   // Conditionally update internal tracked value when given source value changes
   React.useEffect(
     function trackValue() {
-      if (!shouldUpdate(source.stamp, trackedStamp)) return;
-      trackedSetValue(source.value);
+      if (
+        !shouldUpdate({ value: source?.value, stamp: source?.stamp }, tracked)
+      )
+        return;
+      tracked.setValue(source?.value);
     },
-    [shouldUpdate, source.value, source.stamp, trackedSetValue, trackedStamp],
+    [shouldUpdate, source?.value, source?.stamp, tracked],
   );
 
   return tracked;
 }
+
+type Ignore<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+type UseSycedValueOptions<T, U> = Ignore<
+  UseTrackedValueOptions<T, U>,
+  "shouldUpdate"
+>;
 
 /**
  * Sync a parent with a dependent child value. The incoming parent source updates are
@@ -136,18 +151,43 @@ export function useTrackedValue<T, U>({
  * only being overwritten by the parent source if there is a more recent stamped value.
  */
 export function useSyncedValue<T, U>({
-  source,
-}: Pick<UseTrackedValueOptions<T, U>, "source">): UseValueResult<T, U> {
+  shouldUpdate,
+  source: { setValue: setSourceValue, ...source } = {},
+  stamper,
+}: UseSycedValueOptions<T, U>): UseValueResult<T, U> {
   const tracked = useTrackedValue({
-    source,
-    // Always update tracked source value
+    // Always update tracked value with latest source
     shouldUpdate: () => true,
+    source,
+    stamper,
   });
 
+  const setTrackedValue = tracked.setValue;
+  const setValue: OnValue<T> = React.useCallback(
+    function setValue(newValue) {
+      setTrackedValue(newValue);
+      setSourceValue?.(newValue);
+    },
+    [setSourceValue, setTrackedValue],
+  );
+
   return useTrackedValue({
-    // Only allow setting target value is the source allowed it
-    source: { ...tracked, setValue: source.setValue && tracked.setValue },
     // Update target value when tracked source has more recent change
-    shouldUpdate: (s, t) => t == undefined || (s != undefined && s > t),
+    shouldUpdate: shouldUpdate ?? defaultShouldUpdate,
+    source: { ...tracked, setValue },
+    stamper,
   });
+}
+
+/**
+ *
+ * @param s source stamp value
+ * @param t target stamp value
+ * @returns {boolean} true when target should be replaced with source
+ */
+function defaultShouldUpdate<T, U>(
+  s?: ShouldUpdateArg<T, U>,
+  t?: ShouldUpdateArg<T, U>,
+) {
+  return t?.stamp == undefined || (s?.stamp != undefined && s.stamp > t.stamp);
 }
