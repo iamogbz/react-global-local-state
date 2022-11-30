@@ -145,8 +145,9 @@ export function useSyncedValue<T, U>({
   });
 
   return useTrackedValue({
+    // Only allow setting target value is the source allowed it
     source: { ...tracked, setValue: source.setValue && tracked.setValue },
-    // Update target value when source has more recent change
-    shouldUpdate: (s, t) => t === undefined || (s !== undefined && s > t),
+    // Update target value when tracked source has more recent change
+    shouldUpdate: (s, t) => t == undefined || (s != undefined && s > t),
   });
 }

@@ -1,20 +1,23 @@
-import * as React from 'react';
-import { OnValue } from './hooks/useValue';
+import * as React from "react";
+import { OnValue } from "../hooks/useValue";
 
 export type InputProps = Omit<
   React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >,
-  'onChange'
+  "onChange"
 > & { onValueChange?: OnValue<string> };
 
-export function Input({ onValueChange, ...inputProps }: InputProps) {
+export function Input({
+  onValueChange,
+  ...inputProps
+}: InputProps): JSX.Element {
   const onChange = React.useCallback(
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
       return onValueChange?.(e.currentTarget.value);
     },
-    [onValueChange]
+    [onValueChange],
   );
 
   return <input {...inputProps} onChange={onChange} />;

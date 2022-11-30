@@ -1,0 +1,5 @@
+artifacts/
+build/
+built/
+dist/
+docs/
