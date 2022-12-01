@@ -66,6 +66,15 @@ describe("useValue", () => {
 });
 
 describe("useTrackedValue", () => {
+  it("successfully tracks value when initialised with undefined", () => {
+    expect.assertions(2);
+    const { result } = renderHook(() =>
+      useTrackedValue({ shouldUpdate: jest.fn() }),
+    );
+    expect(result.current.value).toBeUndefined();
+    expect(result.current.stamp).toBeGreaterThan(0);
+  });
+
   it("updates tracked value using should update predicate", () => {
     expect.assertions(12);
     const setValue = jest.fn();
