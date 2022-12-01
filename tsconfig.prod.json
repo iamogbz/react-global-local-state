@@ -2,5 +2,8 @@
     "extends": "./tsconfig.json",
     "include": [
         "src/hooks",
-    ]
+    ],
+    "exclude": [
+        "src/**/*.test.ts",
+    ]   
 }
