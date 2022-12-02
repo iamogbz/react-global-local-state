@@ -1,5 +1,5 @@
 import * as React from "react";
-import { OnValue, useSyncedValue } from "src/hooks/useValue";
+import { OnValue, useSyncedValue } from "../hooks/useValue";
 import { LabelledInput, LabelledInputProps } from "./LabelledInput";
 
 export type SourceTargetInputProps = Pick<

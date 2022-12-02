@@ -2,7 +2,7 @@
   "name": "react-use-value",
   "version": "0.0.0",
   "private": false,
-  "peerDependencies": {
+  "dependencies": {
     "lodash.isequal": "^4",
     "moment": "^2",
     "react": "^17 || ^18",
