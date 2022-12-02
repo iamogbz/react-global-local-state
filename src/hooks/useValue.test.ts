@@ -127,9 +127,11 @@ describe("useTrackedValue", () => {
 describe("useSyncedValue", () => {
   it("updates only target when set value is not given", () => {
     expect.assertions(2);
+    const shouldUpdate: ShouldUpdateCallback<string, number> = (s) =>
+      !!s?.value;
     const { result } = renderHook(
       (props: { source: Record<string, unknown> }) =>
-        useSyncedValue({ ...props }),
+        useSyncedValue({ shouldUpdate, ...props }),
     );
     expect(result.current.value).toBeUndefined();
 
