@@ -93,20 +93,19 @@ export function useValue<T, U>({
 /**
  * Params for `useTrackedValue` which include the source value, stamper and a predicate.
  */
-
-type ShouldUpdateArg<T, U> = Pick<
-  Partial<UseValueResult<T, U>>,
-  "stamp" | "value"
->;
-export type ShouldUpdateCallback<T, U> = (
-  source?: ShouldUpdateArg<T, U>,
-  target?: ShouldUpdateArg<T, U>,
-) => boolean;
 interface UseTrackedValueOptions<T, U> {
   source?: Partial<UseValueResult<T, U>>;
   stamper?: U;
   shouldUpdate: ShouldUpdateCallback<T, U>;
 }
+export type ShouldUpdateCallback<T, U> = (
+  source?: ShouldUpdateArg<T, U>,
+  target?: ShouldUpdateArg<T, U>,
+) => boolean;
+type ShouldUpdateArg<T, U> = Pick<
+  Partial<UseValueResult<T, U>>,
+  "stamp" | "value"
+>;
 
 /**
  * This keeps track of the source value and updates the internal value using the
@@ -139,8 +138,9 @@ export function useTrackedValue<T, U>({
   return tracked;
 }
 
-type Ignore<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-type UseSycedValueOptions<T, U> = Ignore<
+// type Require<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+type UseSycedValueOptions<T, U> = Optional<
   UseTrackedValueOptions<T, U>,
   "shouldUpdate"
 >;
