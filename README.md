@@ -18,10 +18,10 @@ You have an initial text value of "John Doe" loaded and kept in sync with the so
 import { useValue, useTrackedValue, useSyncedValue } from 'react-use-value';
 ```
 
-See type documentation for details on how each is used.
+See [type documentation](https://github.com/iamogbz/react-global-local-state/issues/5) for details on how each is used.
 
 ### Demo
 
-![synced input values](./docs/imgs/Screen%20Recording%202022-11-30%20at%207.51.05%20AM.gif)
+![synced input values](https://raw.githubusercontent.com/iamogbz/react-global-local-state/main/docs/imgs/Screen%20Recording%202022-11-30%20at%207.51.05%20AM.gif)
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-global-local-state)
