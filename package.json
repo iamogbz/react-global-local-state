@@ -22,7 +22,7 @@
     "release": "semantic-release"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.3.0",
+    "@commitlint/config-conventional": "^17.6.6",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.2",
     "@types/lodash.isequal": "^4.5.6",
