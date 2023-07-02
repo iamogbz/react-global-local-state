@@ -4,7 +4,7 @@
 [![Dependabot badge](https://badgen.net/github/dependabot/iamogbz/react-global-local-state/?icon=dependabot)](https://app.dependabot.com)
 [![Dependencies](https://img.shields.io/librariesio/github/iamogbz/react-global-local-state)](https://libraries.io/github/iamogbz/react-global-local-state)
 [![Build Status](https://github.com/iamogbz/react-global-local-state/workflows/Build/badge.svg)](https://github.com/iamogbz/react-global-local-state/actions)
-[![Coverage Status](https://coveralls.io/repos/github/iamogbz/react-global-local-state/badge.svg?branch=refs/heads/main)](https://coveralls.io/github/iamogbz/react-global-local-state)
+[![Coverage Status](https://coveralls.io/repos/github/iamogbz/react-global-local-state/badge.svg?branch=main)](https://coveralls.io/github/iamogbz/react-global-local-state)
 
 Solves the problem of updating an internal component based on values passed in from a different source that can be updated independently.
 
