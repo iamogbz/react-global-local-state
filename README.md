@@ -20,7 +20,7 @@ import { useValue, useTrackedValue, useSyncedValue } from 'react-use-value';
 
 See [type documentation](https://github.com/iamogbz/react-global-local-state/issues/5) for details on how each is used.
 
-### Demo
+### [Demo](https://react-global-local-state.stackblitz.io/)
 
 ![synced input values](https://raw.githubusercontent.com/iamogbz/react-global-local-state/main/docs/imgs/Screen%20Recording%202022-11-30%20at%207.51.05%20AM.gif)
 
