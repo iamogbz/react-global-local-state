@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-global-local-state/static/css/main.2462828c.css",
+    "main.js": "/react-global-local-state/static/js/main.cd498a4f.js",
+    "index.html": "/react-global-local-state/index.html",
+    "main.2462828c.css.map": "/react-global-local-state/static/css/main.2462828c.css.map",
+    "main.cd498a4f.js.map": "/react-global-local-state/static/js/main.cd498a4f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2462828c.css",
+    "static/js/main.cd498a4f.js"
+  ]
+}
