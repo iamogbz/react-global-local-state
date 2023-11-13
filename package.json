@@ -45,7 +45,7 @@
     "lint-staged": "^15.0.2",
     "lodash.isequal": "^4.5.0",
     "moment": "^2.29.4",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
     "prettier-eslint": "^16.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
