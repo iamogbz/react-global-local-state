@@ -51,7 +51,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "semantic-release": "^23.0.5",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
