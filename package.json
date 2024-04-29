@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
-    "@testing-library/react": "^15.0.4",
+    "@testing-library/react": "^15.0.5",
     "@types/jest": "^29.5.12",
     "@types/lodash.isequal": "^4.5.8",
     "@types/moment": "^2.13.0",
